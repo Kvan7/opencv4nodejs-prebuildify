@@ -21,7 +21,7 @@ Nan::Persistent<v8::FunctionTemplate> Mat::constructor;
 
 namespace FF {
 /**
- * 2,3-Dimmentions Macro seters for a single Value
+ * 2,3-Dimensions Macro seters for a single Value
  */
 template <typename type, int n>
 static inline void matPutVal(cv::Mat mat, v8::Local<v8::Value> value, const cv::Vec<int, n>& idx) {
@@ -29,7 +29,7 @@ static inline void matPutVal(cv::Mat mat, v8::Local<v8::Value> value, const cv::
 }
 
 /**
- * 2,3-Dimmentions Macro seters for a Vec<2> Value
+ * 2,3-Dimensions Macro seters for a Vec<2> Value
  */
 
 template <typename type, int n>
@@ -40,7 +40,7 @@ static inline void matPutVec2(cv::Mat mat, v8::Local<v8::Value> vector, const cv
       (type)FF::DoubleConverter::unwrapUnchecked(Nan::Get(vec, 1).ToLocalChecked()));
 }
 /**
- * 2,3-Dimmentions Macro seters for a Vec<3> Value
+ * 2,3-Dimensions Macro seters for a Vec<3> Value
  */
 
 template <typename type, int n>
@@ -52,7 +52,7 @@ static inline void matPutVec3(cv::Mat mat, v8::Local<v8::Value> vector, const cv
       (type)FF::DoubleConverter::unwrapUnchecked(Nan::Get(vec, 2).ToLocalChecked()));
 }
 /**
- * 2,3-Dimmentions Macro seters for a Vec<4> Value
+ * 2,3-Dimensions Macro seters for a Vec<4> Value
  */
 
 template <typename type, int n>
@@ -475,10 +475,10 @@ NAN_METHOD(Mat::New) {
       dim = dim + 1;
       rowArray0 = v8::Local<v8::Array>::Cast(Nan::Get(rowArray0, 0).ToLocalChecked());
     }
-    // if multishanel drop one dimmention
+    // if multishanel drop one Dimension
     if (channel > 1)
       dim--;
-    // std::cout << "Create a Mat of " << dim << " dimentions eatch item has " << channel << " channel(s)." << std::endl;
+    // std::cout << "Create a Mat of " << dim << " dimensions eatch item has " << channel << " channel(s)." << std::endl;
 
     // reset row0
     rowArray0 = v8::Local<v8::Array>::Cast(info[0]);
@@ -490,7 +490,7 @@ NAN_METHOD(Mat::New) {
       }
       cv::Mat mat = cv::Mat(sizes, type);
       self->setNativeObject(mat);
-      // return tryCatch.throwError("Mat::New - Mat must have at least 2 Dimentions");
+      // return tryCatch.throwError("Mat::New - Mat must have at least 2 dimensions");
     } else if (dim == 2) {
       long rows = rowArray0->Length();
       long numCols = -1;
@@ -569,7 +569,7 @@ NAN_METHOD(Mat::New) {
       FF_MAT_APPLY_TYPED_OPERATOR(mat, rowArray0, type, FF_MAT_FROM_JS_ARRAY_4D, FF::matPut);
       self->setNativeObject(mat);
     } else {
-      return tryCatch.throwError("Mat::New - Support only 4 Dimmention provided payload contains " + std::to_string(dim));
+      return tryCatch.throwError("Mat::New - Support only 4 dimensions provided payload contains " + std::to_string(dim));
     }
   }
   /* row, col, type
@@ -578,7 +578,7 @@ NAN_METHOD(Mat::New) {
    */
   else if (info[0]->IsNumber() && info[1]->IsNumber() && info[2]->IsInt32()) {
     int type = info[2]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value();
-    if (info.Length() == 3 || info[3]->IsArray() || info[3]->IsNumber()) {
+    if (info.Length() == 3 || info[3]->IsArray() || info[3]->IsNumber() || info[3]->IsBoolean()) {
 
       cv::Mat mat(info[0]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(), info[1]->ToInt32(Nan::GetCurrentContext()).ToLocalChecked()->Value(), type);
 
@@ -593,7 +593,7 @@ NAN_METHOD(Mat::New) {
         }
         FF_MAT_APPLY_TYPED_OPERATOR(mat, vec, type, FF_MAT_FILL, FF::matPut);
       }
-      if (info[3]->IsNumber()) {
+      if (info[3]->IsNumber() || info[3]->IsBoolean()) {
         FF_MAT_APPLY_TYPED_OPERATOR(mat, info[3], type, FF_MAT_FILL, FF::matPut);
       }
       self->setNativeObject(mat);
