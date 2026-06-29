@@ -22,11 +22,11 @@ jobs:
         run: sudo apt-get update
       - name: Install libopencv
         run: sudo apt-get install -y libopencv-dev libopencv-features2d-dev
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: pnpm/action-setup@v3
         with:
           version: 9.3.0
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org/

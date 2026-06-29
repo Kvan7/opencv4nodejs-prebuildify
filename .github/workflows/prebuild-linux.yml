@@ -42,12 +42,12 @@ jobs:
           - 22
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
     - uses: pnpm/action-setup@v3
       with:
         version: 9.3.0
     - name: Install Node.js ${{ matrix.node_version }}
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v6
       with:
         node-version: ${{ matrix.node_version }}
         cache: 'pnpm'
@@ -56,9 +56,9 @@ jobs:
       run: |
         sudo apt update
         sudo apt install libopencv-dev
-        
+
     - run: pnpm install --frozen-lockfile
-          
+
     - name: pnpm run prepack
       run: pnpm run prepack
 

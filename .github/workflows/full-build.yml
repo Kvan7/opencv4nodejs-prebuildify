@@ -26,15 +26,15 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
     - uses: pnpm/action-setup@v3
       with:
         version: 9.3.0
-    - uses: actions/setup-node@v4
+    - uses: actions/setup-node@v6
       with:
         node-version: 20
         cache: 'pnpm'
-    
+
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v2
 
