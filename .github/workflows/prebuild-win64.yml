@@ -58,7 +58,8 @@ jobs:
           # - 16
           # - 18
           # - 20
-          - 22
+          # - 22
+          - 24
         architecture:
           - x64
     steps:
@@ -71,7 +72,7 @@ jobs:
         node-version: ${{ matrix.node_version }}
         architecture: ${{ matrix.architecture }}
         cache: 'pnpm'
-    
+
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v2
 
@@ -83,7 +84,7 @@ jobs:
     #   with:
     #    name: PATH
     #    value: $env:PATH;$env:OPENCV_BIN_DIR
-     
+
     - name: run pnpm install
       run: pnpm install --frozen-lockfile
 
